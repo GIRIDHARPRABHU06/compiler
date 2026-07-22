@@ -1,64 +1,61 @@
-# Mini-C Compiler
 
-A Mini-C Compiler developed in **Python** using **PLY (Python Lex-Yacc)**.
+# Mini-C Compiler (Dependency-Free Python)
 
-This project implements the major phases of a compiler for a subset of the C programming language.
+This project implements a simple Mini-C compiler pipeline for a compiler design developed as an academic compiler design project.
 
 ## Features
 
-- Lexical Analysis
-- Syntax Analysis
-- Semantic Analysis
-- Abstract Syntax Tree (AST)
-- Three-Address Code (TAC) Generation
-- Error Detection and Reporting
+- Lexical analysis (tokens for keywords, identifiers, literals, operators, delimiters)
+- Syntax analysis using a recursive descent parser
+- AST generation
+- Semantic analysis:
+  - Redeclaration checks
+  - Undeclared variable checks
+  - Type mismatch checks (`int` vs `float`)
+  - Array usage and static bounds checks for literal indices
+- IR generation as Three-Address Code (TAC)
 
-## Technologies Used
+## Project Files
 
-- Python
-- PLY (Python Lex-Yacc)
-
-## Project Structure
-
-```text
-mini_c_compiler/
-│
-├── lexer.py
-├── parser.py
-├── semantic.py
-├── ast_nodes.py
-├── ir_gen.py
-├── main.py
-├── output.tac
-└── README.md
-```
-
-## Supported Mini-C Features
-
-- Variable Declarations (`int`, `float`)
-- Arithmetic Expressions
-- Relational Operators
-- One-dimensional Arrays
-- `if-else`
-- `while`
-- `for`
-- `print()` Function
+- `ast_nodes.py`: AST node definitions
+- `lexer.py`: Lexer implementation
+- `parser.py`: Parser + AST construction
+- `semantic.py`: Symbol table + semantic checks
+- `ir_gen.py`: TAC generation
+- `main.py`: Pipeline entry point
+- `test_program.mc`: Valid Mini-C sample
+- `test_errors.mc`: Invalid Mini-C sample (semantic errors)
 
 ## Run
 
-```bash
-python main.py
+From this folder:
+
+```powershell
+python main.py test_program.mc --tokens --ast --symbols --tac output.tac
 ```
 
-## Output
+Expected behavior:
 
-The compiler generates:
+- Prints tokens, AST, symbol table, and TAC
+- Writes TAC to `output.tac`
 
-- Tokens
-- Parse Tree / AST
-- Semantic Validation
-- Three-Address Code (TAC)
+Test error handling:
 
-## License
+```powershell
+python main.py test_errors.mc --symbols
+```
 
-Developed as an academic compiler design project.
+Expected behavior:
+
+- Prints symbol table
+- Reports semantic errors with line numbers
+
+## Supported Mini-C Constructs
+
+- Variable declarations: `int x;`, `float y = 1.5;`
+- Array declarations: `int arr[10];`
+- Assignments: `x = 3 + y;`, `arr[i] = x;`
+- Control flow: `if-else`, `while`, `for`
+- Printing: `print(expr);`
+- Arithmetic and relational operators
+>>>>>>> ffd2182 (Reorganize project structure and remove virtual environment)
